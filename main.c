@@ -858,6 +858,8 @@ int load_gamefile(GameBoy *gb, const char *filename) {
     printf("Error Occured. Aborting Game!");
     return 1;
   }
+  free(gb->rom_data);
+  return 1;
 }
 
 void print_rom_info(const GameBoy *gb) {
@@ -871,9 +873,8 @@ void print_rom_info(const GameBoy *gb) {
   get_old_licensee_code(gb->licensee_code);
   printf("Supports SGB functions: %s\n", gb->sgb_flag == 0x33 ? "Yes" : "No");
   get_cartridge_type(gb->cart_type);
-  printf("  ROM Size: %zu bytes (%u banks)\n", gb->rom_size,
-         gb->rom_bank_count);
-  printf("  RAM Size: %zu bytes\n", gb->ram_size);
+  printf("ROM Size: %zu bytes (%u banks)\n", gb->rom_size, gb->rom_bank_count);
+  printf("RAM Size: %zu bytes\n", gb->ram_size);
   switch (gb->dest_code) {
   case 0x00:
     printf("Sold in Japan(and possibly overseas)\n");
@@ -882,7 +883,7 @@ void print_rom_info(const GameBoy *gb) {
     printf("Overseas only\n");
     break;
   }
-  printf("Mask ROM Version Number: %zu", gb->mask_rom_version_number);
+  printf("Mask ROM Version Number: %zu\n", gb->mask_rom_version_number);
 }
 
 // Print ROM info
